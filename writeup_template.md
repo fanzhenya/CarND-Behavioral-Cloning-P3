@@ -6,7 +6,7 @@
 
 ---
 
-![video demo](examplesrun1.mp4)
+[video demo](examples/run1.mp4)
 
 
 **Behavioral Cloning Project**
