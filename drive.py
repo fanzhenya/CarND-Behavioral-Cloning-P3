@@ -48,6 +48,20 @@ set_speed = 9
 controller.set_desired(set_speed)
 
 
+import cv2
+w, h, c = 320, 160, 3
+def get_M(reverse=False):
+    src = np.float32( [[0, h], [w / 2 - 80, 60], [w / 2 + 80, 60], [w, h]])
+    dst = np.float32( [[0, h], [0, 0], [w, 0], [w, h]])
+    if reverse:
+        return cv2.getPerspectiveTransform(dst, src)
+    else:
+        return cv2.getPerspectiveTransform(src, dst)
+
+M = get_M()
+def warp_perspective(img, reverse=False):
+    return cv2.warpPerspective(img, M, (w, h))
+
 @sio.on('telemetry')
 def telemetry(sid, data):
     if data:
@@ -61,6 +75,9 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
+
+        image_array = warp_perspective(image_array)
+
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
         throttle = controller.update(float(speed))
