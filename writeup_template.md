@@ -122,4 +122,4 @@ I finally randomly shuffled the data set and put 20% of the data into a validati
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs is around 5 as evidenced by validation loss greater than training loss in training curve. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
-
+![alt text][image5]
